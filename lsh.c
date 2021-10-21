@@ -355,8 +355,15 @@ int print_detail(struct dirent* dir_info, struct stat buf) {
 }
 
 int check_permition(struct stat buf) {
-    if(S_ISDIR(buf.st_mode)) printf("d");
-    else printf("-");
+    if(S_ISDIR(buf.st_mode)) {
+        printf("d");
+    } else if (S_ISFIFO(buf.st_mode)) {
+        printf("p");
+    } else if (S_ISLNK(buf.st_mode)) {
+        printf("l");
+    } else {
+        printf("-");
+    }
     if((buf.st_mode & S_IRUSR)) printf("r");
     else printf("-");
     if((buf.st_mode & S_IWUSR)) printf("w");
